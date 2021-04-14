@@ -17,6 +17,7 @@ year={2016}
 ### MacOS (CPU)
 - Install conda 
 - Create conda enviornment: `conda create --name <env> --file macOS_local_req.txt`
+
 OR
 - Install into existing conda environment: `conda install -n <env_name> requirements.txt`
 
