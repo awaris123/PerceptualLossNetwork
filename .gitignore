@@ -1,3 +1,8 @@
+train2014.zip
+train2014/
+
+
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
