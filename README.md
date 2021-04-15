@@ -12,6 +12,8 @@ publisher={Dept. of Computer Science, Stanford University},
 year={2016}
 }
 ```
+This implementation was inspired from the offical [pytorch example](https://github.com/pytorch/examples/tree/master/fast_neural_style) from facebook research:
+
 
 ## Installation
 ### MacOS (CPU)
