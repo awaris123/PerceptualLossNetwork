@@ -2,7 +2,7 @@ train2014.zip
 train2014/
 datasets/
 styles/
-
+.vscode/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
