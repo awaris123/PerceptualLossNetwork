@@ -59,7 +59,7 @@ class DownSampleConv(torch.nn.Module):
 class RBlock(torch.nn.Module):
     # Specification:  http://torch.ch/blog/2016/02/04/resnets.html
     
-    def __init__(self, channels):
+    def __init__(self, channels:int):
         super(RBlock, self).__init__()
         self.conv2d1 = torch.nn.Conv2d(channels, channels, kernel_size=3, stride=1)
         self.norm1 = torch.nn.InstanceNorm2d(channels,affine=True)
