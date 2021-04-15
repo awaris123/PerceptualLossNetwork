@@ -1,5 +1,4 @@
-#!/usr/bin/env python
-# coding: utf-8
+
 # 80k set of coco data can be found here: https://pjreddie.com/projects/coco-mirror/
 import numpy as np
 import torch
