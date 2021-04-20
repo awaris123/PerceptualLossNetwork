@@ -13,11 +13,14 @@ class ImageTransformationNN(torch.nn.Module):
         
         
     def forward(self, X):
-        y = self.up_sample(
+        """y = self.up_sample(
                 self.res(
                     self.down_sample(
                     X
-                )))
+                )))"""
+        X = self.down_sample(X) 
+        X = self.res(X)
+        y = self.up_sample(X)
         return y
 
 class DownSampleConv(torch.nn.Module):
@@ -67,7 +70,7 @@ class RBlock(torch.nn.Module):
         self.conv2d2 = torch.nn.Conv2d(3, channels, kernel_size=3, stride=1)
         self.norm2 = torch.nn.InstanceNorm2d(channels,affine=True)
     
-    def forward(self):
+    def forward(self, X):
         residual = X
         y_hat = self.norm2(
                 self.conv2d2(
@@ -92,7 +95,7 @@ class ResidualNet(torch.nn.Module):
         self.block4 = RBlock(128)
         self.block5 = RBlock(128)
     
-    def forward(self):
+    def forward(self, X):
         y = self.block5(
             self.block4(
             self.block3(
@@ -119,7 +122,7 @@ class UpSampleConv(torch.nn.Module):
         self.norm3 = torch.nn.InstanceNorm2d(3,affine=True)
         self.tanh = torch.nn.Tanh()
     
-    def forward(self):
+    def forward(self, X):
         y = self.tanh(
             self.norm3(
             self.conv2d3(
