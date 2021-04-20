@@ -41,15 +41,15 @@ class Generator(object):
 # Util image functions
 
 def load_rgb_img(filename:str, dim:int=None,scale:int=None) -> torch.Tensor:
-    img = Image.open(filename)
+    img = Image.open(filename).convert('RGB')
     # accept dim or scale but but not both, priortize dim
     if dim:
         img = img.resize((dim, dim), Image.ANTIALIAS)
     elif scale:
         img = img.resize((int(img.size[0] / scale), int(img.size[1] / scale)), Image.ANTIALIAS)
     
-    img = np.array(img).transpose(2, 0, 1)
-    img = torch.from_numpy(img).float()
+    #img = np.array(img).transpose(2, 0, 1)
+    #img = torch.from_numpy(img).float()
     return img
 
 def show_image(img:torch.Tensor):
@@ -69,5 +69,4 @@ def show_images(gen:Generator, batches:int=1):
         else:
             for img in batch:
                 show_image(img)
-
 
