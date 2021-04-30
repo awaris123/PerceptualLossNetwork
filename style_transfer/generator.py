@@ -31,8 +31,8 @@ class Generator(object):
                     Lambda(lambda x: x.mul(dim))
                     ])
 
-        train = ImageFolder(DATA_DIR, data_transformer)
-        self.train_loader = DataLoader(train, batch_size=BATCH_SIZE)
+        self.train = ImageFolder(DATA_DIR, data_transformer)
+        self.train_loader = DataLoader(self.train, batch_size=BATCH_SIZE)
     
         
     def __iter__(self):
