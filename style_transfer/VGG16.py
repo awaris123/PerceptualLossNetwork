@@ -86,5 +86,3 @@ class VGG16LossNN(torch.nn.Module):
             "relu4_3":relu4_3,
             
         }
-
-
