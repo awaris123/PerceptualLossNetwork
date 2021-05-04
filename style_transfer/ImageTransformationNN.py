@@ -27,19 +27,35 @@ class ImageTransformationNN(torch.nn.Module):
         # Print('X Up sampling done')
         return y
 
+    
+    
+# Just added reflection padding 
+class ConvLayer(torch.nn.Module):
+    def __init__(self, in_channels, out_channels, kernel_size=9, stride=1):
+        super(ConvLayer, self).__init__()
+        reflection_padding = kernel_size // 2
+        self.reflection_pad = torch.nn.ReflectionPad2d(reflection_padding)
+        self.conv2d = torch.nn.Conv2d(in_channels, out_channels, kernel_size, stride)
+
+    def forward(self, x):
+        out = self.reflection_pad(x)
+        out = self.conv2d(out)
+        return out    
+    
+
 class DownSampleConv(torch.nn.Module):
     
     def __init__(self):
         
         super(DownSampleConv, self).__init__()
         
-        self.conv2d1 = torch.nn.Conv2d(3, 32, kernel_size=9, stride=1, padding=3)
+        self.conv2d1 = ConvLayer(3, 32, kernel_size=9, stride=1)
         self.norm1 = torch.nn.InstanceNorm2d(32, affine=True)
 
-        self.conv2d2 = torch.nn.Conv2d(32, 64, kernel_size=3, stride=2, padding=1)
+        self.conv2d2 = ConvLayer(32, 64, kernel_size=3, stride=2)
         self.norm2 = torch.nn.InstanceNorm2d(64, affine=True)
 
-        self.conv2d3 = torch.nn.Conv2d(64, 128, kernel_size=3, stride=2, padding=1)
+        self.conv2d3 = ConvLayer(64, 128, kernel_size=3, stride=2)
         self.norm3 = torch.nn.InstanceNorm2d(128, affine=True)
     
         self.relu = torch.nn.ReLU()
@@ -74,18 +90,7 @@ class DownSampleConv(torch.nn.Module):
         return y
 
     
-# Just added reflection padding 
-class ConvLayer(torch.nn.Module):
-    def __init__(self, in_channels, out_channels, kernel_size, stride):
-        super(ConvLayer, self).__init__()
-        reflection_padding = kernel_size // 2
-        self.reflection_pad = torch.nn.ReflectionPad2d(reflection_padding)
-        self.conv2d = torch.nn.Conv2d(in_channels, out_channels, kernel_size, stride)
 
-    def forward(self, x):
-        out = self.reflection_pad(x)
-        out = self.conv2d(out)
-        return out
     
     
 
@@ -95,12 +100,12 @@ class RBlock(torch.nn.Module):
     def __init__(self, channels:int):
         super(RBlock, self).__init__()
         self.conv2d1 = ConvLayer(channels, channels, kernel_size=3, stride=1)
-        self.norm1 = torch.nn.InstanceNorm2d(channels, affine=True)
+        self.norm1 = InstanceNormalization(channels)
         self.relu = torch.nn.ReLU()
         
         # MISTAKE HERE
         self.conv2d2 = ConvLayer(channels, channels, kernel_size=3, stride=1)
-        self.norm2 = torch.nn.InstanceNorm2d(channels, affine=True)
+        self.norm2 = InstanceNormalization(channels)
     
     def forward(self, X):
         #print('IN RBlock')
