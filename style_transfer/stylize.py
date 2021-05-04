@@ -43,8 +43,6 @@ def main():
 
     transformer.load_state_dict(torch.load(args.model, map_location=torch.device('cpu')))
 
-    print('here')
-
     content = load_rgb_img_tensor(args.image).unsqueeze(0)
     content = content
     content = Variable(preprocess(content), requires_grad=True)
